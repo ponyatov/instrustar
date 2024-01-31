@@ -56,6 +56,10 @@ or in-system:
 ```sh
     sudo apt install -uy libusb-1.0-0-dev
 ```
+```
+libusb-1.0-0    :amd64   2:1.0.26-1
+libusb-1.0-0-dev:amd64   2:1.0.26-1
+```
 
 2. copy `./linux/*.so` files
 

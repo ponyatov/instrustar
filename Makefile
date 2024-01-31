@@ -59,7 +59,7 @@ GITREF = git clone -o gh --depth 1
 ref: ref/sigrok-util/README
 
 ref/sigrok-util/README:
-	$(GITREF) https://github.com/sigrokproject/sigrok-util.git ref/sigrok-util
+	$(GITREF) git://sigrok.org/sigrok-util ref/sigrok-util
 
 # merge
 MERGE += Makefile README.md apt.*
