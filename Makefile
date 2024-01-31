@@ -1,7 +1,10 @@
 # var
 # MODULE = $(notdir $(CURDIR))
-HW     ?= ISDS205A
+HW     ?= ISDS205C
 MODULE  = $(HW)
+
+AUTHOR = Dmitry Ponyatov
+EMAIL  = dponyatov@gmil.com
 
 # dir
 CWD  = $(CURDIR)
@@ -15,6 +18,8 @@ GZ   = $(HOME)/gz
 CURL = curl -L -o
 CF   = clang-format
 
+NEW_DRIVER = $(CWD)/ref/sigrok-util/source/new-driver
+
 # src
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
@@ -26,7 +31,10 @@ LIBS += lib/libvdso.so lib/libvdso.so.1.0
 LIBS += inc/VdsoLib.h
 
 .PHONY: all
-all: $(LIBS) ref
+all: $(LIBS) ref $(C) src/0001-isds205c-Initial-driver-skeleton.patch
+
+src/0001-isds205c-Initial-driver-skeleton.patch: $(NEW_DRIVER)
+	cd src ; python3 $< -a "$(AUTHOR)" -e "$(EMAIL)" $(HW)
 
 bin/%: SharedLibrary/Linux/X64/Debug/%
 	ln -fs ../$< $@
@@ -58,10 +66,10 @@ gz:
 
 .PHONY: ref
 GITREF = git clone -o gh --depth 1
-ref: ref/sigrok-util/README
+ref: $(NEW_DRIVER)
 
-ref/sigrok-util/README:
-	$(GITREF) git://sigrok.org/sigrok-util ref/sigrok-util
+$(NEW_DRIVER):
+	$(GITREF) git://sigrok.org/sigrok-util $(CWD)/ref/sigrok-util
 
 # merge
 MERGE += Makefile README.md apt.*

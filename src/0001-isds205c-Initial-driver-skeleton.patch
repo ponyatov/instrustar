@@ -1,0 +1,298 @@
+From 810e12d74e63b3530cfed16dd23fc02c381e613e Mon Sep 17 00:00:00 2001
+From: Dmitry Ponyatov <dponyatov@samsa.local>
+Date: Wed, 31 Jan 2024 19:52:35 +0400
+Subject: [PATCH] isds205c: Initial driver skeleton.
+
+---
+ Makefile.am                      |   6 ++
+ configure.ac                     |   1 +
+ src/hardware/isds205c/api.c      | 154 +++++++++++++++++++++++++++++++
+ src/hardware/isds205c/protocol.c |  43 +++++++++
+ src/hardware/isds205c/protocol.h |  35 +++++++
+ 5 files changed, 239 insertions(+)
+ create mode 100644 src/hardware/isds205c/api.c
+ create mode 100644 src/hardware/isds205c/protocol.c
+ create mode 100644 src/hardware/isds205c/protocol.h
+
+diff --git a/Makefile.am b/Makefile.am
+index 62aca8a..8ba1208 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -467,6 +467,12 @@ src_libdrivers_la_SOURCES += \
+ 	src/hardware/ipdbg-la/protocol.c \
+ 	src/hardware/ipdbg-la/api.c
+ endif
++if HW_ISDS205C
++src_libdrivers_la_SOURCES += \
++	src/hardware/isds205c/protocol.h \
++	src/hardware/isds205c/protocol.c \
++	src/hardware/isds205c/api.c
++endif
+ if HW_ITECH_IT8500
+ src_libdrivers_la_SOURCES += \
+ 	src/hardware/itech-it8500/protocol.h \
+diff --git a/configure.ac b/configure.ac
+index 5c30a81..ca4ba1b 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -342,6 +342,7 @@ SR_DRIVER([ICStation USBRelay], [icstation-usbrelay], [serial_comm])
+ SR_DRIVER([Ikalogic Scanalogic-2], [ikalogic-scanalogic2], [libusb])
+ SR_DRIVER([Ikalogic Scanaplus], [ikalogic-scanaplus], [libftdi])
+ SR_DRIVER([IPDBG LA], [ipdbg-la])
++SR_DRIVER([Instrustar ISDS205C], [isds205c])
+ SR_DRIVER([ITECH IT8500], [itech-it8500], [serial_comm])
+ SR_DRIVER([JUNTEK JDS6600], [juntek-jds6600], [serial_comm])
+ SR_DRIVER([Kecheng KC-330B], [kecheng-kc-330b], [libusb])
+diff --git a/src/hardware/isds205c/api.c b/src/hardware/isds205c/api.c
+new file mode 100644
+index 0000000..168347b
+--- /dev/null
++++ b/src/hardware/isds205c/api.c
+@@ -0,0 +1,154 @@
++/*
++ * This file is part of the libsigrok project.
++ *
++ * Copyright (C) 2024 Dmitry Ponyatov <dponyatov@gmil.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <config.h>
++#include "protocol.h"
++
++static struct sr_dev_driver isds205c_driver_info;
++
++static GSList *scan(struct sr_dev_driver *di, GSList *options)
++{
++	struct drv_context *drvc;
++	GSList *devices;
++
++	(void)options;
++
++	devices = NULL;
++	drvc = di->context;
++	drvc->instances = NULL;
++
++	/* TODO: scan for devices, either based on a SR_CONF_CONN option
++	 * or on a USB scan. */
++
++	return devices;
++}
++
++static int dev_open(struct sr_dev_inst *sdi)
++{
++	(void)sdi;
++
++	/* TODO: get handle from sdi->conn and open it. */
++
++	return SR_OK;
++}
++
++static int dev_close(struct sr_dev_inst *sdi)
++{
++	(void)sdi;
++
++	/* TODO: get handle from sdi->conn and close it. */
++
++	return SR_OK;
++}
++
++static int config_get(uint32_t key, GVariant **data,
++	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
++{
++	int ret;
++
++	(void)sdi;
++	(void)data;
++	(void)cg;
++
++	ret = SR_OK;
++	switch (key) {
++	/* TODO */
++	default:
++		return SR_ERR_NA;
++	}
++
++	return ret;
++}
++
++static int config_set(uint32_t key, GVariant *data,
++	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
++{
++	int ret;
++
++	(void)sdi;
++	(void)data;
++	(void)cg;
++
++	ret = SR_OK;
++	switch (key) {
++	/* TODO */
++	default:
++		ret = SR_ERR_NA;
++	}
++
++	return ret;
++}
++
++static int config_list(uint32_t key, GVariant **data,
++	const struct sr_dev_inst *sdi, const struct sr_channel_group *cg)
++{
++	int ret;
++
++	(void)sdi;
++	(void)data;
++	(void)cg;
++
++	ret = SR_OK;
++	switch (key) {
++	/* TODO */
++	default:
++		return SR_ERR_NA;
++	}
++
++	return ret;
++}
++
++static int dev_acquisition_start(const struct sr_dev_inst *sdi)
++{
++	/* TODO: configure hardware, reset acquisition state, set up
++	 * callbacks and send header packet. */
++
++	(void)sdi;
++
++	return SR_OK;
++}
++
++static int dev_acquisition_stop(struct sr_dev_inst *sdi)
++{
++	/* TODO: stop acquisition. */
++
++	(void)sdi;
++
++	return SR_OK;
++}
++
++static struct sr_dev_driver isds205c_driver_info = {
++	.name = "isds205c",
++	.longname = "Instrustar ISDS205C",
++	.api_version = 1,
++	.init = std_init,
++	.cleanup = std_cleanup,
++	.scan = scan,
++	.dev_list = std_dev_list,
++	.dev_clear = std_dev_clear,
++	.config_get = config_get,
++	.config_set = config_set,
++	.config_list = config_list,
++	.dev_open = dev_open,
++	.dev_close = dev_close,
++	.dev_acquisition_start = dev_acquisition_start,
++	.dev_acquisition_stop = dev_acquisition_stop,
++	.context = NULL,
++};
++SR_REGISTER_DEV_DRIVER(isds205c_driver_info);
+diff --git a/src/hardware/isds205c/protocol.c b/src/hardware/isds205c/protocol.c
+new file mode 100644
+index 0000000..83264d4
+--- /dev/null
++++ b/src/hardware/isds205c/protocol.c
+@@ -0,0 +1,43 @@
++/*
++ * This file is part of the libsigrok project.
++ *
++ * Copyright (C) 2024 Dmitry Ponyatov <dponyatov@gmil.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include <config.h>
++#include "protocol.h"
++
++SR_PRIV int isds205c_receive_data(int fd, int revents, void *cb_data)
++{
++	const struct sr_dev_inst *sdi;
++	struct dev_context *devc;
++
++	(void)fd;
++
++	sdi = cb_data;
++	if (!sdi)
++		return TRUE;
++
++	devc = sdi->priv;
++	if (!devc)
++		return TRUE;
++
++	if (revents == G_IO_IN) {
++		/* TODO */
++	}
++
++	return TRUE;
++}
+diff --git a/src/hardware/isds205c/protocol.h b/src/hardware/isds205c/protocol.h
+new file mode 100644
+index 0000000..2c82220
+--- /dev/null
++++ b/src/hardware/isds205c/protocol.h
+@@ -0,0 +1,35 @@
++/*
++ * This file is part of the libsigrok project.
++ *
++ * Copyright (C) 2024 Dmitry Ponyatov <dponyatov@gmil.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 3 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef LIBSIGROK_HARDWARE_ISDS205C_PROTOCOL_H
++#define LIBSIGROK_HARDWARE_ISDS205C_PROTOCOL_H
++
++#include <stdint.h>
++#include <glib.h>
++#include <libsigrok/libsigrok.h>
++#include "libsigrok-internal.h"
++
++#define LOG_PREFIX "isds205c"
++
++struct dev_context {
++};
++
++SR_PRIV int isds205c_receive_data(int fd, int revents, void *cb_data);
++
++#endif
+-- 
+2.39.2
+
