@@ -19,7 +19,7 @@
 
 ### demo-Python
 	
-	a Demo written with Python,only test in Windows
+	a Demo written with Python, only test in Windows
 
 ### DllTest
 	
@@ -43,7 +43,7 @@
 
 ### libusb
 
-1. install libusb
+1. install `libusb`
 
 ```sh
 	tar xvjf libusb-1.0.24.tar.bz2
@@ -66,8 +66,22 @@ libusb-1.0-0-dev:amd64   2:1.0.26-1
 - to your system dynamic libraries like `/lib` or `/usr/lib`
 - into directory with your binary executables (distribution package)
 	
-3. Compile dlltest and then run
+3. Compile `dlltest` and then run
 
 ```sh
 	sudo ./DllTest
 ```
+
+## `PulseView` & `sigrok` interfacing
+
+- https://sigrok.org/wiki/Main_Page
+- https://sigrok.org/wiki/PulseView
+
+### `sigrok`
+
+    portable, cross-platform, Open-Source signal analysis software suite
+    that supports various device types
+
+### `PulseView`
+
+    Qt-based logic analyzer, oscilloscope and MSO GUI for `sigrok`
