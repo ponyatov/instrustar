@@ -56,6 +56,7 @@ ref/sigrok-util/README.md:
 MERGE += Makefile README.md apt.*
 MERGE += .clang-format .editorconfig .doxygen .gitignore
 MERGE += .vscode bin doc lib inc src tmp ref
+MERGE += demo-*
 
 .PHONY: dev
 dev:

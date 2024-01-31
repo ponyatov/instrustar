@@ -1,43 +1,69 @@
 # SDK
-The Sdk of Instrustar Series Oscilloscopes. The open source support ISDS205 ISDS210 ISDS220 and ISDS206 oscilloscopes.
+## The Sdk of Instrustar Series Oscilloscopes.
+### The open source support for oscilloscopes
 
-######################demo######################
+- ISDS205
+- ISDS210
+- ISDS220
+- ISDS206
 
-1,demo-VC
+## Demo
+
+### demo-VC
 	
 	a Demo written with VC
 	
-2,demo-Labview
+### demo-Labview
 	
-	a Demo written with Labview,only test in windows
+	a Demo written with Labview, only test in Windows
 
-3,dome-Python
+### demo-Python
 	
-	a Demo written with Python,only test in windows
+	a Demo written with Python,only test in Windows
 
-4,DllTest
+### DllTest
 	
-	a  command line Demo written with c++, test in windows and ubuntu linux
+	a command line Demo written with C++, test in Windows and Ubuntu Linux
 
-5,DllTestQt
+### DllTestQt
 
-	a Demo written with Qt, test in windows and ubuntu linux
-	Note:To start Qt, please use sudo. This ensures that libusb can correctly detect the device
+	a Demo written with Qt, test in Windows and Ubuntu Linux
+
+	Note: To start Qt, please use `sudo`. This ensures that `libusb`
+    can detect the device correctly
 	
-######################linux######################
+## Linux
 
-1,install libsub
+### Debian 11
 
-	
+```sh
+    sudo apt update
+    sudo apt install -uy `cat apt.Debian11`
+```
+
+### libusb
+
+1. install libusb
+
+```sh
 	tar xvjf libusb-1.0.24.tar.bz2
-	
 	./configure --build=x86_64-linux --disable-udev
-	
-	make install / sudo make install
-2,copy so "./linux/*.so" file to your system dynamic libraries
+	sudo make install
+```
 
-	like /lib or /usr/lib
+or in-system:
+
+```sh
+    sudo apt install -uy libusb-1.0-0-dev
+```
+
+2. copy `./linux/*.so` files
+
+- to your system dynamic libraries like `/lib` or `/usr/lib`
+- into directory with your binary executables (distribution package)
 	
-3,Compile dlltest and then run
+3. Compile dlltest and then run
+
+```sh
 	sudo ./DllTest
-
+```
