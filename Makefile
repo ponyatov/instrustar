@@ -4,8 +4,17 @@ HW     ?= ISDS205A
 MODULE  = $(HW)
 
 # all
+
+LIBS += bin/libvdso.so bin/libvdso.so.1.0
+LIBS += lib/libvdso.so lib/libvdso.so.1.0
+
 .PHONY: all
-all: update
+all: $(LIBS)
+
+bin/%: SharedLibrary/Linux/X64/Debug/%
+	ln -fs ../$< $@
+lib/%: SharedLibrary/Linux/X64/Debug/%
+	ln -fs ../$< $@
 
 # doc
 .PHONY: doc
