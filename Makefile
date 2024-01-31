@@ -23,6 +23,7 @@ H += $(wildcard inc/*.h*)
 
 LIBS += bin/libvdso.so bin/libvdso.so.1.0
 LIBS += lib/libvdso.so lib/libvdso.so.1.0
+LIBS += inc/VdsoLib.h
 
 .PHONY: all
 all: $(LIBS) ref
@@ -31,10 +32,18 @@ bin/%: SharedLibrary/Linux/X64/Debug/%
 	ln -fs ../$< $@
 lib/%: SharedLibrary/Linux/X64/Debug/%
 	ln -fs ../$< $@
+inc/%: SharedLibrary/%
+	cp $< $@
 
 # doc
 .PHONY: doc
 doc:
+
+# format
+.PHONY: format
+format: tmp/format_cpp
+tmp/format_cpp: $(C) $(H)
+	$(CF) -style=file -i $? && touch $@
 
 # install
 .PHONY: install update gz ref
@@ -47,9 +56,9 @@ gz:
 
 .PHONY: ref
 GITREF = git clone -o gh --depth 1
-ref: ref/sigrok-util/README.md
+ref: ref/sigrok-util/README
 
-ref/sigrok-util/README.md:
+ref/sigrok-util/README:
 	$(GITREF) https://github.com/sigrokproject/sigrok-util.git ref/sigrok-util
 
 # merge
