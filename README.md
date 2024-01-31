@@ -74,6 +74,10 @@ libusb-1.0-0-dev:amd64   2:1.0.26-1
 
 ## `PulseView` & `sigrok` interfacing
 
+(by) Dmitry Ponyatov <<dponyatov@gmail.com>> 2024 license/MIT
+
+telegram: http://t.me/dponyatov
+
 - https://sigrok.org/wiki/Main_Page
 - https://sigrok.org/wiki/PulseView
 
@@ -85,3 +89,11 @@ libusb-1.0-0-dev:amd64   2:1.0.26-1
 ### `PulseView`
 
     Qt-based logic analyzer, oscilloscope and MSO GUI for `sigrok`
+
+### new device (hardware driver)
+
+- https://sigrok.org/wiki/Hardware_driver_API
+
+```sh
+git clone --depth 1 git://sigrok.org/sigrok-util ref/sigrok-util
+```

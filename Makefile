@@ -37,8 +37,10 @@ inc/%: SharedLibrary/%
 
 # doc
 .PHONY: doc
-doc:
+doc: doc/Sigrok-_Adventures_in_Integrating_a_Power-Measurement_Device.pdf
 
+doc/Sigrok-_Adventures_in_Integrating_a_Power-Measurement_Device.pdf:
+	$(CURL) $@ https://elinux.org/images/7/76/Sigrok-_Adventures_in_Integrating_a_Power-Measurement_Device.pdf
 # format
 .PHONY: format
 format: tmp/format_cpp
